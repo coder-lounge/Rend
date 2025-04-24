@@ -1,107 +1,112 @@
 # Rend
 
-Rend is a gamified Web3 content ecosystem that empowers creators, reviewers, and communities by merging content creation with interactive, blockchain-powered rewards.
+**Rend** is a Web3 content platform that redefines content engagement using **blockchain**, **gamification**, **staking**, and **AI**. Our mission is to empower creators and consumers by building a community-driven ecosystem where quality content is rewarded and users participate in governance and curation. Rend leverages decentralized technology and game mechanics to encourage active participation, fair rewards, and innovative content interactions.
 
-## Mission & Overview
+## Mission and Vision
 
-Rend’s mission is to **redefine content engagement** using a blend of blockchain technology, gamification elements, and artificial intelligence. The platform creates an environment where **creators** can share content freely and **reviewers** are incentivized to participate in curation, ensuring that high-quality content rises to the top. By leveraging Web3 features (like token rewards and staking) and game-like mechanics (XP, badges, avatars, leaderboards), Rend makes the process of creating and engaging with content **fun, rewarding, and community-driven**.
+Rend’s vision is to **revolutionize how content is created, curated, and consumed**. We aim to move beyond traditional likes and comments by introducing **blockchain-backed incentives** and **AI-powered features** that promote genuine engagement. Key elements of our mission include:
 
-The vision of Rend is to **empower creators and reviewers** alike. Creators can upload a wide range of content – from articles and books to videos and music – and earn rewards based on the community’s engagement with their work. Reviewers and community members are encouraged to provide valuable feedback and curation through a reward system of experience points (XP) and tokens. High-quality contributions are recognized with **achievement badges** and showcased on **leaderboards**, motivating participants to consistently contribute their best insights.
+- **Decentralization of Content**: Using blockchain (StarkNet via Cairo) to ensure transparency and ownership of content and interactions.
+- **Gamified Participation**: Incorporating game-like elements (quests, leveling, rewards) to make contributing and curating content fun and rewarding.
+- **Stakeholder Incentives**: Enabling staking mechanisms where users can stake tokens on content they believe in, aligning incentives between creators and reviewers.
+- **AI Assistance**: Utilizing AI for content review scoring and moderation assistance, ensuring quality and safety while scaling the platform.
+- **Community Governance**: Eventually transitioning to community-driven decision making (DAO governance), so the platform’s evolution is guided by its users.
 
-A unique aspect of Rend is its **staking-based interaction model**. Community members can stake the platform’s tokens to predict which content pieces or which creators will become popular or highly rated. If their predictions are correct, they earn rewards, adding a strategic, game-like layer to content discovery. This not only rewards proactive community members but also helps surface promising content. In the long term, Rend plans to integrate **AI-driven features** (such as automated review scoring or personalized content recommendations) to further enhance the curation process and user experience. Overall, Rend aims to build a vibrant, user-owned content platform where engagement is **rewarding, meritocratic, and fun**.
+Through this mission, **Rend** strives to create a platform where creators are fairly rewarded, reviewers earn by contributing honestly, and every user has a stake in the content ecosystem.
 
 ## Features (MVP)
 
+Our Minimum Viable Product focuses on core features that demonstrate the platform’s value. The initial feature set includes:
+
 - **Content Uploads**
 - **Reviewer Incentives**
-- **Dynamic Avatars**
 - **Staking System**
 - **Token Rewards**
 - **In-App eCommerce**
-- **Secure User Authentication**
-- **Profiles and Access Control**
+- **Custom Avatars**
+- **Secure Authentication**
+- **User Profiles**
 
 ## Tech Stack
 
-- **Backend:** Node.js (Express.js)
-- **Frontend:** Next.js + TypeScript
-- **Database:** MongoDB
-- **Styling:** Tailwind CSS
-- **Smart Contracts:** Cairo (StarkNet)
+Rend is built with a modern **full-stack** and **Web3**-focused technology stack:
+
+- **Frontend**: Next.js (React), TypeScript, Tailwind CSS
+- **Backend**: Node.js, Express, MongoDB
+- **Smart Contracts**: Cairo (StarkNet)
+- **Tools**: Jest (testing), Web3 libraries, Docker (optional)
 
 ## Project Folder Structure
 
-/root
-├── backend        # Node.js Express backend
-├── frontend       # Next.js frontend
-├── onchain        # Cairo smart contracts
-├── src            # Shared utilities and typings
+rend/
+├── backend/       # Node.js Express backend
+├── frontend/      # Next.js frontend
+├── onchain/       # Cairo smart contracts (StarkNet)
+├── src/           # Shared utilities and typings
+├── README.md      # Project overview and setup instructions
+├── CONTRIBUTING.md
+└── ...
 
-## Contribution Guidelines
+## Getting Started
 
-### Setup
+1. Clone the repository:
 
-git bash
-git clone https://github.com/yourusername/rend.git
-cd rend
+   ```bash
+   git clone <https://github.com/coder-lounge/Rend>
+   cd rend
+   ```
 
-#### Backend
+1. Install dependencies for each part:
 
-git bash
-cd backend
-npm install
-npm run dev
+   ```bash
+   cd backend && npm install
+   cd ../frontend && npm install
+   cd ../onchain && npm install
+   ```
 
-#### Frontend
+1. Configure environment variables for backend, frontend, and onchain.
 
-git bash
-cd ../frontend
-npm install
-npm run dev
+1. Run each service:
 
-### Environment Variables
+   ```bash
+   # Backend
+   cd backend
+   npm run dev
+   ```
 
-- Configure `.env` files for both frontend and backend
-- Backend: JWT_SECRET, MONGODB_URI, etc.
-- Frontend: NEXT_PUBLIC_API_URL, etc.
+   ```bash
+   # Frontend
+   cd ../frontend
+   npm run dev
+   ```
 
-### Testing (Jest)
+1. (Optional) Compile and deploy Cairo contracts:
 
-git bash
+   ```bash
+   cd ../onchain
 
-# Backend tests
+   # Assuming use of Protostar or similar
+   protostar build
+   protostar test
+   ```
 
-cd backend
-npm test
+## Contribution
 
-### Branching & PRs
-- Use `feature/`, `fix/`, `refactor/` prefixes
-- Submit descriptive PRs
-- Ensure linting & testing is done before pushing
-
-### Onchain Contributions
-
-- Cairo + StarkNet setup
-- Use Protostar or other Cairo tools
-
-### AI/ML Contributions
-
-- Discuss via issues before integrating
-- Keep services modular and API-based
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on contributing to this project.
 
 ## Roadmap
 
-- Complete MVP
-- AI Review Scoring
-- Advanced Prediction Markets
-- Community Quests
-- Enhanced Avatar NFTs
+- AI-Powered Review Scoring
+- Prediction Markets for Content
+- Quests and Achievements
+- NFT-Based Avatars
 - Mobile Support
-- DAO-style Governance
+- DAO Governance
 
 ## Community & Support
 
 - **Telegram:** [Join us](https://t.me/+xbq5vDl38DcwMTdk)
-- **GitHub Issues:** Use for bugs, ideas, and feature requests
-- **OnlyDust:** Watch for bounties and tasks
-**Thank you for contributing to Rend 🚀**
+- **GitHub Issues:** Use for bug reports and feature requests
+- **OnlyDust:** Follow us for bounties and tasks
+
+### Thank you for contributing to Rend 🚀
