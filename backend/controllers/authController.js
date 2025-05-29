@@ -1,9 +1,19 @@
 const User = require('../models/User');
+const Nonce = require('../models/Nonce');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 // Email service for password reset
 const sendEmail = require('../utils/sendEmail');
+
+// Wallet utilities
+const {
+  verifyEvmSignature,
+  verifySolanaSignature,
+  generateNonce,
+  createAuthMessage,
+  normalizeWalletAddress
+} = require('../utils/walletUtils');
 
 // Helper function to create and send JWT token
 const sendToken = (user, statusCode, res) => {
@@ -31,7 +41,7 @@ exports.register = async (req, res, next) => {
 
     // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-    
+
     if (existingUser) {
       if (existingUser.email === email) {
         return res.status(400).json({
@@ -237,6 +247,155 @@ exports.getMe = async (req, res, next) => {
       success: true,
       data: user
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// @desc    Get nonce for wallet authentication
+// @route   POST /api/auth/wallet/nonce
+// @access  Public
+exports.getNonce = async (req, res, next) => {
+  try {
+    const { walletAddress, walletType } = req.body;
+
+    // Validate input
+    if (!walletAddress || !walletType) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide wallet address and wallet type'
+      });
+    }
+
+    if (!['evm', 'solana'].includes(walletType)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid wallet type. Must be "evm" or "solana"'
+      });
+    }
+
+    // Normalize wallet address
+    const normalizedAddress = normalizeWalletAddress(walletAddress, walletType);
+
+    // Generate new nonce
+    const nonce = generateNonce();
+
+    // Save nonce to database (this will automatically expire old ones)
+    await Nonce.create({
+      walletAddress: normalizedAddress,
+      nonce
+    });
+
+    // Create message to be signed
+    const message = createAuthMessage(nonce);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        nonce,
+        message
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// @desc    Authenticate with wallet signature
+// @route   POST /api/auth/wallet
+// @access  Public
+exports.walletLogin = async (req, res, next) => {
+  try {
+    const { walletAddress, signature, message, walletType } = req.body;
+
+    // Validate input
+    if (!walletAddress || !signature || !message || !walletType) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide wallet address, signature, message, and wallet type'
+      });
+    }
+
+    if (!['evm', 'solana'].includes(walletType)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid wallet type. Must be "evm" or "solana"'
+      });
+    }
+
+    // Normalize wallet address
+    const normalizedAddress = normalizeWalletAddress(walletAddress, walletType);
+
+    // Extract nonce from message
+    const nonceMatch = message.match(/Nonce: ([a-f0-9]+)/);
+    if (!nonceMatch) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid message format'
+      });
+    }
+    const nonce = nonceMatch[1];
+
+    // Verify nonce exists and hasn't been used
+    const nonceDoc = await Nonce.findOne({
+      walletAddress: normalizedAddress,
+      nonce,
+      used: false
+    });
+
+    if (!nonceDoc) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired nonce'
+      });
+    }
+
+    // Verify signature based on wallet type
+    let isValidSignature = false;
+
+    if (walletType === 'evm') {
+      isValidSignature = verifyEvmSignature(message, signature, normalizedAddress);
+    } else if (walletType === 'solana') {
+      isValidSignature = verifySolanaSignature(message, signature, walletAddress);
+    }
+
+    if (!isValidSignature) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid signature'
+      });
+    }
+
+    // Mark nonce as used
+    nonceDoc.used = true;
+    await nonceDoc.save();
+
+    // Find or create user
+    let user = await User.findOne({ walletAddress: normalizedAddress });
+
+    if (!user) {
+      // Create new user with wallet
+      user = await User.create({
+        walletAddress: normalizedAddress,
+        walletType,
+        walletAuthenticated: true
+      });
+    } else {
+      // Update existing user
+      user.walletAuthenticated = true;
+      await user.save();
+    }
+
+    // Create token and send response
+    sendToken(user, 200, res);
   } catch (error) {
     res.status(500).json({
       success: false,
