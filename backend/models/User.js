@@ -6,8 +6,8 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: function () {
-      // Username required only if no wallet
-      return !this.walletAddress;
+      // Username required only if no wallet and no Google auth
+      return !this.walletAddress && !this.googleId;
     },
     unique: true,
     sparse: true,
@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: function () {
-      return !this.walletAddress;
+      return !this.walletAddress && !this.googleId;
     },
     unique: true,
     sparse: true,
@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: function () {
-      return !this.walletAddress;
+      return !this.walletAddress && !this.googleId;
     },
     minlength: [6, 'Password must be at least 6 characters long'],
     select: false
@@ -50,6 +50,16 @@ const UserSchema = new mongoose.Schema({
     }
   },
   walletAuthenticated: {
+    type: Boolean,
+    default: false
+  },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+    trim: true
+  },
+  googleAuthenticated: {
     type: Boolean,
     default: false
   },

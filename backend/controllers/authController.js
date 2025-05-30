@@ -15,6 +15,14 @@ const {
   normalizeWalletAddress
 } = require('../utils/walletUtils');
 
+// Google OAuth utilities
+const {
+  generateAuthUrl,
+  exchangeCodeForTokens,
+  verifyGoogleToken,
+  isGoogleOAuthConfigured
+} = require('../utils/googleUtils');
+
 // Helper function to create and send JWT token
 const sendToken = (user, statusCode, res) => {
   // Create token
@@ -391,6 +399,182 @@ exports.walletLogin = async (req, res, next) => {
     } else {
       // Update existing user
       user.walletAuthenticated = true;
+      await user.save();
+    }
+
+    // Create token and send response
+    sendToken(user, 200, res);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// @desc    Authenticate with Google OAuth
+// @route   POST /api/auth/google
+// @access  Public
+exports.googleLogin = async (req, res, next) => {
+  try {
+    const { token } = req.body;
+
+    // Validate input
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide Google ID token'
+      });
+    }
+
+    // Check if Google OAuth is configured
+    if (!isGoogleOAuthConfigured()) {
+      return res.status(500).json({
+        success: false,
+        message: 'Google OAuth is not configured'
+      });
+    }
+
+    // Verify Google token and extract user info
+    let googleUserInfo;
+    try {
+      googleUserInfo = await verifyGoogleToken(token);
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid or expired Google token'
+      });
+    }
+
+    const { googleId, email, name } = googleUserInfo;
+
+    // Find or create user
+    let user = await User.findOne({ googleId });
+
+    if (!user) {
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+        // Link Google account to existing user
+        existingUser.googleId = googleId;
+        existingUser.googleAuthenticated = true;
+        user = await existingUser.save();
+      } else {
+        // Create new user
+        user = await User.create({
+          googleId,
+          email,
+          username: name ? name.replace(/\s+/g, '').toLowerCase() : `user_${googleId.slice(-8)}`,
+          googleAuthenticated: true
+        });
+      }
+    } else {
+      // Update existing Google user
+      user.googleAuthenticated = true;
+      await user.save();
+    }
+
+    // Create token and send response
+    sendToken(user, 200, res);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// @desc    Get Google OAuth authorization URL
+// @route   GET /api/auth/google/url
+// @access  Public
+exports.getGoogleAuthUrl = async (req, res, next) => {
+  try {
+    // Check if Google OAuth is configured
+    if (!isGoogleOAuthConfigured()) {
+      return res.status(500).json({
+        success: false,
+        message: 'Google OAuth is not configured'
+      });
+    }
+
+    const authUrl = generateAuthUrl();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        authUrl
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// @desc    Handle Google OAuth callback
+// @route   POST /api/auth/google/callback
+// @access  Public
+exports.googleCallback = async (req, res, next) => {
+  try {
+    const { code } = req.body;
+
+    // Validate input
+    if (!code) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide authorization code'
+      });
+    }
+
+    // Check if Google OAuth is configured
+    if (!isGoogleOAuthConfigured()) {
+      return res.status(500).json({
+        success: false,
+        message: 'Google OAuth is not configured'
+      });
+    }
+
+    let result;
+    try {
+      result = await exchangeCodeForTokens(code);
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid or expired authorization code'
+      });
+    }
+
+    const { userInfo } = result;
+    const { googleId, email, name } = userInfo;
+
+    // Find or create user (same logic as googleLogin)
+    let user = await User.findOne({ googleId });
+
+    if (!user) {
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+        // Link Google account to existing user
+        existingUser.googleId = googleId;
+        existingUser.googleAuthenticated = true;
+        user = await existingUser.save();
+      } else {
+        // Create new user
+        user = await User.create({
+          googleId,
+          email,
+          username: name ? name.replace(/\s+/g, '').toLowerCase() : `user_${googleId.slice(-8)}`,
+          googleAuthenticated: true
+        });
+      }
+    } else {
+      // Update existing Google user
+      user.googleAuthenticated = true;
       await user.save();
     }
 
