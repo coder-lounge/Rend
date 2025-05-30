@@ -8,7 +8,9 @@ const {
   getMe,
   getNonce,
   walletLogin,
-  googleLogin
+  googleLogin,
+  getGoogleAuthUrl,
+  googleCallback
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -23,7 +25,9 @@ router.get('/me', protect, getMe);
 router.post('/wallet/nonce', getNonce);
 router.post('/wallet', walletLogin);
 
-// Google OAuth route
+// Google OAuth routes
+router.get('/google/url', getGoogleAuthUrl);
+router.post('/google/callback', googleCallback);
 router.post('/google', googleLogin);
 
 module.exports = router;
