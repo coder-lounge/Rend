@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for backend/utils/sendEmail.js</title>
+    <title>Code coverage report for backend/utils/googleUtils.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">backend/utils</a> sendEmail.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">backend/utils</a> googleUtils.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">35.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/18</span>
+                <span class='fraction'>5/14</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">35.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/18</span>
+                <span class='fraction'>5/14</span>
             </div>
         
             
@@ -113,12 +113,10 @@
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,10 +124,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -137,12 +131,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,17 +148,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,62 +155,65 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const nodemailer = require('nodemailer');
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { OAuth2Client } = require('google-auth-library');
+&nbsp;
+// Initialize Google OAuth client
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 &nbsp;
 /**
- * Send email utility
- * In production: Uses configured email provider (SendGrid, Mailgun, etc.)
- * In development: Logs to console or stores in database for testing
+ * Verify Google ID token and extract user information
+ * @param {string} token - Google ID token
+ * @returns {Promise&lt;Object&gt;} - User information from Google
  */
-const sendEmail = <span class="fstat-no" title="function not covered" >as</span>ync (options) =&gt; {
-  // Destructure options
-  const { email, subject, message } = <span class="cstat-no" title="statement not covered" >options;</span>
+const verifyGoogleToken = <span class="fstat-no" title="function not covered" >as</span>ync (token) =&gt; {
+<span class="cstat-no" title="statement not covered" >    try {</span>
+        // Verify the token
+        const ticket = <span class="cstat-no" title="statement not covered" >await client.verifyIdToken({</span>
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID
+        });
 &nbsp;
-  // Check if we're in production or development
-  const isProduction = <span class="cstat-no" title="statement not covered" >process.env.NODE_ENV === 'production';</span>
+        // Get the payload
+        const payload = <span class="cstat-no" title="statement not covered" >ticket.getPayload();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (isProduction) {</span>
-    // Production email sending logic
-    // This can be configured to use SendGrid, Mailgun, Resend, etc.
-    // Example using nodemailer with a service like SendGrid:
-    
-    const transporter = <span class="cstat-no" title="statement not covered" >nodemailer.createTransport({</span>
-      service: process.env.EMAIL_SERVICE, // 'SendGrid', 'Mailgun', etc.
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-      }
-    });
+<span class="cstat-no" title="statement not covered" >        if (!payload) {</span>
+<span class="cstat-no" title="statement not covered" >            throw new Error('Invalid token payload');</span>
+        }
 &nbsp;
-    // Mail options
-    const mailOptions = <span class="cstat-no" title="statement not covered" >{</span>
-      from: process.env.EMAIL_FROM,
-      to: email,
-      subject,
-      text: message
-    };
-&nbsp;
-    // Send email
-<span class="cstat-no" title="statement not covered" >    await transporter.sendMail(mailOptions);</span>
-    
-<span class="cstat-no" title="statement not covered" >    console.log(`Email sent to ${email}`);</span>
-  } else {
-    // Development mode - log to console
-<span class="cstat-no" title="statement not covered" >    console.log('==========================================');</span>
-<span class="cstat-no" title="statement not covered" >    console.log('EMAIL SENDING SIMULATION (DEVELOPMENT MODE)');</span>
-<span class="cstat-no" title="statement not covered" >    console.log('==========================================');</span>
-<span class="cstat-no" title="statement not covered" >    console.log(`To: ${email}`);</span>
-<span class="cstat-no" title="statement not covered" >    console.log(`Subject: ${subject}`);</span>
-<span class="cstat-no" title="statement not covered" >    console.log('------------------------------------------');</span>
-<span class="cstat-no" title="statement not covered" >    console.log(message);</span>
-<span class="cstat-no" title="statement not covered" >    console.log('==========================================');</span>
-    
-    // You could also store this in a database for testing if needed
-    // Example: await ResetEmail.create({ email, subject, message, sentAt: Date.now() });
-  }
+        // Extract user information
+<span class="cstat-no" title="statement not covered" >        return {</span>
+            googleId: payload.sub,
+            email: payload.email,
+            name: payload.name,
+            picture: payload.picture,
+            emailVerified: payload.email_verified
+        };
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >        console.error('Google token verification error:', error);</span>
+<span class="cstat-no" title="statement not covered" >        throw new Error('Invalid Google token');</span>
+    }
 };
 &nbsp;
-module.exports = sendEmail;</pre></td></tr></table></pre>
+/**
+ * Validate Google OAuth configuration
+ * @returns {boolean} - True if Google OAuth is properly configured
+ */
+const isGoogleOAuthConfigured = <span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >    return !!(process.env.GOOGLE_CLIENT_ID);</span>
+};
+&nbsp;
+module.exports = {
+    verifyGoogleToken,
+    isGoogleOAuthConfigured
+}; </pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
