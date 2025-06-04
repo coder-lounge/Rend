@@ -6,6 +6,9 @@ require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
+const uploadRoutes = require('./routes/upload');
+const reviewRoutes = require('./routes/review');
+
 
 // Initialize express app
 const app = express();
@@ -22,6 +25,9 @@ mongoose.connect(process.env.MONGODB_URI || process.env.DATABASE_URL)
 
 // Mount routes
 app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/review', reviewRoutes);
+
 
 // Root route
 app.get('/', (req, res) => res.send('Rend Backend Running'));

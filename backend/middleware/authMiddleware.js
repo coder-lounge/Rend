@@ -48,3 +48,17 @@ exports.protect = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * Middleware to restrict access based on user role
+ * Usage: restrictTo('creator') or restrictTo('reviewer')
+ */
+
+exports.restrictTo = (role) => {
+  return (req, res, next) => {
+    if (!req.user || req.user.role !== role) {
+      return res.status(403).json({message: 'Acess Denied'})
+    }
+    next();
+  };
+};
