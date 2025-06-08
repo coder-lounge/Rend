@@ -57,7 +57,7 @@ exports.protect = async (req, res, next) => {
 exports.restrictTo = (role) => {
   return (req, res, next) => {
     if (!req.user || req.user.role !== role) {
-      return res.status(403).json({message: 'Acess Denied'})
+      return res.status(403).json({message: 'Access Denied'})
     }
     next();
   };

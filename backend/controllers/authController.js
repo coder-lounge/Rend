@@ -45,7 +45,18 @@ const sendToken = (user, statusCode, res) => {
 // @access  Public
 exports.register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role = 'user' } = req.body;
+
+
+    // Only allow specific roles
+    const allowedRoles = ['creator', 'reviewer'];
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid role provided'
+      });
+    }
+
 
     // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
@@ -69,7 +80,8 @@ exports.register = async (req, res, next) => {
     const user = await User.create({
       username,
       email,
-      password
+      password,
+      role
     });
 
     // Create token and send response

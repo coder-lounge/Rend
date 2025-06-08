@@ -3,7 +3,7 @@ const router = express.Router();
 const { protect, restrictTo } = require('../middleware/authMiddleware')
 
 // POST /upload → only creators allowed
-router.post('/', protect, restrictTo('creator'), (req, res) => {
+router.post('/upload', protect, restrictTo('creator'), (req, res) => {
   res.json({ message: 'Upload successful' });
 });
 
