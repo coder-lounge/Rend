@@ -6,8 +6,8 @@ require('dotenv').config();
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
-const uploadRoutes = require('./routes/upload');
-const reviewRoutes = require('./routes/review');
+const uploadRoutes = require('./routes/uploadRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 
 // Initialize express app

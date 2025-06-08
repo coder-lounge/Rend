@@ -63,6 +63,11 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  role: {
+    type: String,
+    enum: ['creator', 'reviewer'],
+    required: true
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {
